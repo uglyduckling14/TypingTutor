@@ -1,120 +1,28 @@
-import React, { useState } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import './Keyboard.css'; 
-  
-export default function Keyboard() { 
+
+export default function Keyboard(props) { 
     const [inputText, setInputText] = useState(''); 
-    const [isCaps, setIsCaps] = useState(false); 
-    const [isShift, setIsShift] = useState(false); 
-  
-    const handleKeyClick = (key) => { 
-        if (key === 'Enter') { 
-            handleEnterKey(); 
-        }  
-        else if(key === "Ctrl" || key === "Alt" || key === '<' || key === '>') 
-        { 
-        }else if (key === ' ') { 
-            handleSpaceKey(); 
-        } else if (key === 'Caps Lock') { 
-            handleCapsLock(); 
-        } else if (key === '<i className="fa-solid fa-delete-left"></i>') { 
-            handleDeleteKey(); 
-        } else if (key === 'Shift') { 
-            handleShiftKey(); 
-        } else if (key === 'Tab') { 
-            handleTabKey(); 
-        } else { 
-            handleRegularKey(key); 
-        } 
-    }; 
-    const handleSpaceKey = () => { 
-        const newContent = inputText + '\u00A0'; 
-        setInputText(newContent); 
-    }; 
-    const handleEnterKey = () => { 
-        const newContent = inputText + '\n'; 
-        setInputText(newContent); 
-    }; 
-    const handleCapsLock = () => { 
-        const updatedCaps = !isCaps; 
-        setIsCaps(updatedCaps); 
-        const keys = document.querySelectorAll('.key'); 
-        keys.forEach((key) => { 
-            const firstSpanElement = key.querySelector('span:first-child'); 
-            if (firstSpanElement) { 
-                const keyText = firstSpanElement.innerText.toLowerCase(); 
-                if (!['shift', 'alt', 'ctrl', 'enter', 'caps lock', 'tab'] 
-                    .includes(keyText)) { 
-                    firstSpanElement.innerText =  
-                    ((updatedCaps && isShift) || (!updatedCaps && !isShift))  
-                    ? keyText.toLowerCase() : keyText.toUpperCase(); 
-                } 
-                if (keyText === 'caps lock') { 
-                    firstSpanElement.parentElement.style.backgroundColor =  
-                    (updatedCaps) ? 'blue' : '#445760'; 
-                } 
-            } 
-        }); 
-    }; 
-    const handleTabKey = () => { 
-        const newContent = inputText + '    '; 
-        setInputText(newContent); 
-    }; 
-  
-    const handleDeleteKey = () => { 
-        if (inputText.length === 0) { 
-            return; 
-        } 
-        const newContent = inputText.slice(0, inputText.length - 1); 
-        setInputText(newContent); 
-    }; 
-  
-    const handleShiftKey = () => { 
-        const updatedShift = !isShift; 
-        setIsShift(updatedShift); 
-        const keys = document.querySelectorAll('.key'); 
-        keys.forEach((key) => { 
-            const firstSpanElement = key.querySelector('span:first-child'); 
-            if (firstSpanElement) { 
-                const keyText = firstSpanElement.innerText.toLowerCase(); 
-                if (!['shift', 'alt', 'ctrl', 'enter', 'caps lock', 'tab']. 
-                    includes(keyText)) { 
-                    firstSpanElement.innerText =  
-                    ((updatedShift && isCaps) || (!updatedShift && !isCaps))  
-                    ? keyText.toLowerCase() : keyText.toUpperCase(); 
-                } 
-                if (keyText === 'shift') { 
-                    firstSpanElement.parentElement.style.backgroundColor =  
-                    (updatedShift) ? 'blue' : '#445760'; 
-                } 
-            } 
-        }); 
-    } 
-  
-    const handleRegularKey = (key) => { 
-        const keys = key.split(/[._]/); 
+    const [isCaps] = useState(false); 
+    const isShift = props.isshift;
+    const key = props.inputkey;
+
+    const handleRegularKey = (inputKey) => { 
         let newContent; 
-        if (keys.length > 1) { 
-            if (isShift) { 
-                if (keys.length === 3) { 
-                    if (keys[0] === '>') newContent = inputText + '>'; 
-                    else newContent = inputText + '_'; 
-                } 
-                else newContent = inputText + keys[0]; 
-            } else { 
-                if (keys.length === 3) { 
-                    if (keys[0] === '>') newContent = inputText + '.'; 
-                    else newContent = inputText + '-'; 
-                } 
-                else newContent = inputText + keys[1]; 
-            } 
-        } else { 
-            let character = ((isShift && isCaps) || (!isShift && !isCaps))  
-            ? key.toLowerCase() : key.toUpperCase(); 
-            newContent = inputText + character; 
-        } 
+        let character = ((isShift && isCaps) || (!isShift && !isCaps))  
+        ? inputKey.toLowerCase() : inputKey.toUpperCase(); 
+        newContent = inputText + character; 
+        console.log(isShift)
         setInputText(newContent); 
-    }; 
-  
+    };
+
+    useEffect(()=>{
+        if(key != undefined){
+            handleRegularKey(key);
+        }
+    }, [key, isShift, isCaps ])  
+
+    
     return ( 
         <div className='keyboard'> 
             <div className="textcontainer"> 
@@ -124,34 +32,25 @@ export default function Keyboard() {
                 <div className="container"> 
                     <div className="row"> 
                         {['~.`', '!.1', '@.2', '#.3', '$.4', '%.5',  
-                        '^.6', '&.7', '*.8', '(.9', ').0', '_.-', '+.=',  
-                        '<i className="fa-solid fa-delete-left"></i>'] 
+                        '^.6', '&.7', '*.8', '(.9', ').0', '_.-', '+.='] 
                         .map((keyvalue) =>  
                         ( 
-                            <div key={keyvalue} className='key' 
-                                 onClick={() => handleKeyClick(keyvalue)}> 
+                            <div key={keyvalue} className='key' > 
                                 {keyvalue.includes('.') ? ( 
                                     keyvalue.split('.').map((part, index) => ( 
                                         <span key={index}>{part}</span> 
                                     )) 
-                                ) : ( 
-                                    keyvalue ===  
-                                      '<i className="fa-solid fa-delete-left"></i>' 
-                                     ? ( 
-                                        <i className="fa-solid fa-delete-left"></i> 
-                                    ) : ( 
-                                        <span>{keyvalue}</span> 
-                                    ) 
-                                )} 
+                                ):(
+                                    <span>{keyvalue}</span>
+                                )}
                             </div> 
                         ))} 
                     </div> 
                     <div className="row"> 
-                        {['Tab', 'q', 'w', 'e', 'r', 't', 'y', 
+                        {['q', 'w', 'e', 'r', 't', 'y', 
                         'u', 'i', 'o', 'p', '{_[', '}_]', '|_\\'] 
                         .map((keyvalue) => ( 
-                            <div key={keyvalue} className='key' 
-                                 onClick={() => handleKeyClick(keyvalue)}> 
+                            <div key={keyvalue} className='key'> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
                                         <span key={index}>{part}</span> 
@@ -163,11 +62,10 @@ export default function Keyboard() {
                         ))} 
                     </div> 
                     <div className="row"> 
-                        {['Caps Lock', 'a', 's', 'd', 'f', 'g', 'h',  
-                        'j', 'k', 'l', ':_;', `"_'`, 'Enter'] 
+                        {['a', 's', 'd', 'f', 'g', 'h',  
+                        'j', 'k', 'l', ':_;', `"_'`] 
                             .map((keyvalue) => ( 
-                            <div key={keyvalue} className='key'  
-                                 onClick={() => handleKeyClick(keyvalue)}> 
+                            <div key={keyvalue} className='key'> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
                                         <span key={index}>{part}</span> 
@@ -181,23 +79,20 @@ export default function Keyboard() {
                     <div className="row"> 
                         {['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 
                         '<_,', '>_.', '?_/', 'Shift'].map((keyvalue, index) => ( 
-                            <div key={index} className='key'  
-                                 onClick={() => handleKeyClick(keyvalue)}> 
+                            <div key={index} className='key' style={{ background: isShift && keyvalue.includes('Shift') ? 'blue' : '#445760' }}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
                                         <span key={index}>{part}</span> 
                                     )) 
-                                ) : ( 
-                                    <span>{keyvalue}</span> 
-                                )} 
+                                ) : (<span key = {index}>{keyvalue}</span>)
+                                }
                             </div> 
                         ))} 
                     </div> 
                     <div className="row"> 
-                        {['Ctrl', 'Alt', ' ', 'Ctrl', 'Alt', '<', '>'] 
+                        {[' '] 
                             .map((keyvalue, index) => ( 
-                            <div key={index} className='key'  
-                            onClick={() => handleKeyClick(keyvalue)}> 
+                            <div key={index} className='key'> 
                                 <span>{keyvalue}</span> 
                             </div> 
                         ))} 

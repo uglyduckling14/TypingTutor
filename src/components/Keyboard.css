@@ -73,23 +73,13 @@
   .row:first-child .key:first-child{ 
     width: 40px; 
   } 
-  
-  .row:first-child .key:last-child{ 
-    width: 80px; 
-  } 
-  
-  .row:nth-child(3) .key:first-child{ 
-    width: 95px; 
-  } 
-  .row:nth-child(3) .key:last-child{ 
-    width: 95px; 
-  } 
+
   .row:nth-child(4) .key:first-child{ 
     width: 130px; 
   } 
   .row:nth-child(4) .key:last-child{ 
     width: 130px; 
   } 
-  .row:nth-child(5) .key:nth-child(3){ 
+  .row:nth-child(5) .key:first-child{ 
     width: 550px; 
   }
