@@ -1,4 +1,5 @@
 import Keyboard from './components/Keyboard'; 
+import Prompt from './components/Prompt';
 import './App.css'
 import React, { useEffect, useState } from 'react';
 
@@ -16,7 +17,10 @@ function App() {
       if (e.key === 'Shift') { 
           const updateShift = !isShift
           setIsShift(updateShift)
-      } else { 
+      } else {
+          if(e.key == ' '){
+            e.preventDefault();
+          }
           setKey(e.key) 
       }
     });
@@ -31,12 +35,13 @@ function App() {
     }
     );
     return () => {
-      document.removeEventListener("keydown", console.log("removed"));
-      document.removeEventListener("keyup", console.log("removed"))
+      document.removeEventListener("keydown", []);
+      document.removeEventListener("keyup", [])
     };
   })
   return (
     <div className='App'>
+      <Prompt inputkey = {key}/>
       <Keyboard isshift = {isShift} inputkey = {key}/>
     </div>
   );

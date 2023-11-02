@@ -10,7 +10,6 @@ export default function Keyboard(props) {
         let newContent; 
         let character = ((!isShift))  
         ? inputKey.toLowerCase() : inputKey.toUpperCase();
-        console.log((key == ' ').toString())
         newContent = inputText + character; 
         setInputText(newContent); 
     };
