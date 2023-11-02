@@ -10,9 +10,10 @@ export default function Keyboard(props) {
     const handleRegularKey = (inputKey) => { 
         let newContent; 
         let character = ((isShift && isCaps) || (!isShift && !isCaps))  
-        ? inputKey.toLowerCase() : inputKey.toUpperCase(); 
+        ? inputKey.toLowerCase() : inputKey.toUpperCase();// (inputKey == ' ') ? inputKey: '' ; 
+        //character = ((inputKey == ' ') ? inputKey: '' )
+        console.log((key == ' ').toString())
         newContent = inputText + character; 
-        console.log(isShift)
         setInputText(newContent); 
     };
 
@@ -21,7 +22,14 @@ export default function Keyboard(props) {
             handleRegularKey(key);
         }
     }, [key, isShift, isCaps ])  
-
+    const compareKey = (inputKey, split) => {
+        console.log(inputKey == key, inputKey, key)
+        if(inputKey.includes(split)){
+            const keys = inputKey.split(split)
+            return keys[0] == key || keys[1] == key ? "selected": "unselected"
+        }
+        return inputKey == key ? "selected":"unselected"
+    }
     
     return ( 
         <div className='keyboard'> 
@@ -35,7 +43,7 @@ export default function Keyboard(props) {
                         '^.6', '&.7', '*.8', '(.9', ').0', '_.-', '+.='] 
                         .map((keyvalue) =>  
                         ( 
-                            <div key={keyvalue} className='key' > 
+                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '.')}> 
                                 {keyvalue.includes('.') ? ( 
                                     keyvalue.split('.').map((part, index) => ( 
                                         <span key={index}>{part}</span> 
@@ -50,7 +58,7 @@ export default function Keyboard(props) {
                         {['q', 'w', 'e', 'r', 't', 'y', 
                         'u', 'i', 'o', 'p', '{_[', '}_]', '|_\\'] 
                         .map((keyvalue) => ( 
-                            <div key={keyvalue} className='key'> 
+                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
                                         <span key={index}>{part}</span> 
@@ -65,7 +73,7 @@ export default function Keyboard(props) {
                         {['a', 's', 'd', 'f', 'g', 'h',  
                         'j', 'k', 'l', ':_;', `"_'`] 
                             .map((keyvalue) => ( 
-                            <div key={keyvalue} className='key'> 
+                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue,'_')}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
                                         <span key={index}>{part}</span> 
@@ -79,7 +87,7 @@ export default function Keyboard(props) {
                     <div className="row"> 
                         {['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 
                         '<_,', '>_.', '?_/', 'Shift'].map((keyvalue, index) => ( 
-                            <div key={index} className='key' style={{ background: isShift && keyvalue.includes('Shift') ? 'blue' : '#445760' }}> 
+                            <div key={index} className='key' isshift = {(isShift && keyvalue.includes('Shift'))?isShift.toString(): "false"} sel = {compareKey(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
                                         <span key={index}>{part}</span> 
@@ -92,7 +100,7 @@ export default function Keyboard(props) {
                     <div className="row"> 
                         {[' '] 
                             .map((keyvalue, index) => ( 
-                            <div key={index} className='key'> 
+                            <div key={index} className='key' sel = {compareKey(keyvalue, null)}> 
                                 <span>{keyvalue}</span> 
                             </div> 
                         ))} 

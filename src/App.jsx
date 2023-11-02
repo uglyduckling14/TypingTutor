@@ -26,8 +26,14 @@ function App() {
         const updateShift = !isShift
         setIsShift(updateShift) 
       }
-      return;}
+      setKey("")
+      return;
+    }
     );
+    return () => {
+      document.removeEventListener("keydown", console.log("removed"));
+      document.removeEventListener("keyup", console.log("removed"))
+    };
   })
   return (
     <div className='App'>
