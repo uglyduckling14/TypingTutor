@@ -56,8 +56,8 @@ export default function Keyboard(props) {
                         ))} 
                     </div> 
                     <div className="row"> 
-                        {['q', 'w', 'e', 'r', 't', 'y', 
-                        'u', 'i', 'o', 'p', '{_[', '}_]', '|_\\'] 
+                        {['Q_q', 'W_w', 'E_e', 'R_r', 'T_t', 'Y_y', 
+                        'U_u', 'I_i', 'O_o', 'P_p', '{_[', '}_]', '|_\\'] 
                         .map((keyvalue) => ( 
                             <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
@@ -75,8 +75,8 @@ export default function Keyboard(props) {
                         ))} 
                     </div> 
                     <div className="row"> 
-                        {['a', 's', 'd', 'f', 'g', 'h',  
-                        'j', 'k', 'l', ':_;', `"_'`] 
+                        {['A_a', 'S_s', 'D_d', 'F_f', 'G_g', 'H_h',  
+                        'J_j', 'K_k', 'L_l', ':_;', `"_'`] 
                             .map((keyvalue) => ( 
                             <div key={keyvalue} className='key' sel = {compareKey(keyvalue,'_')}> 
                                 {keyvalue.includes('_') ? ( 
@@ -94,7 +94,7 @@ export default function Keyboard(props) {
                         ))} 
                     </div> 
                     <div className="row"> 
-                        {['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 
+                        {['Shift', 'Z_z', 'X_x', 'C_c', 'V_v', 'B_b', 'N_n', 'M_m', 
                         '<_,', '>_.', '?_/', 'Shift'].map((keyvalue, index) => ( 
                             <div key={index} className='key' isshift = {(isShift && keyvalue.includes('Shift'))?isShift.toString(): "false"} sel = {compareKey(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
