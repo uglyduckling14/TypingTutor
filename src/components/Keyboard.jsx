@@ -3,15 +3,13 @@ import './Keyboard.css';
 
 export default function Keyboard(props) { 
     const [inputText, setInputText] = useState(''); 
-    const [isCaps] = useState(false); 
     const isShift = props.isshift;
     const key = props.inputkey;
 
     const handleRegularKey = (inputKey) => { 
         let newContent; 
-        let character = ((isShift && isCaps) || (!isShift && !isCaps))  
-        ? inputKey.toLowerCase() : inputKey.toUpperCase();// (inputKey == ' ') ? inputKey: '' ; 
-        //character = ((inputKey == ' ') ? inputKey: '' )
+        let character = ((!isShift))  
+        ? inputKey.toLowerCase() : inputKey.toUpperCase();
         console.log((key == ' ').toString())
         newContent = inputText + character; 
         setInputText(newContent); 
@@ -21,9 +19,8 @@ export default function Keyboard(props) {
         if(key != undefined){
             handleRegularKey(key);
         }
-    }, [key, isShift, isCaps ])  
+    }, [key, isShift])  
     const compareKey = (inputKey, split) => {
-        console.log(inputKey == key, inputKey, key)
         if(inputKey.includes(split)){
             const keys = inputKey.split(split)
             return keys[0] == key || keys[1] == key ? "selected": "unselected"
@@ -46,7 +43,11 @@ export default function Keyboard(props) {
                             <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '.')}> 
                                 {keyvalue.includes('.') ? ( 
                                     keyvalue.split('.').map((part, index) => ( 
-                                        <span key={index}>{part}</span> 
+                                        (index != 0 && !isShift) ? (
+                                            <span key={index}>{part}</span>):
+                                                (index == 0 && isShift) ?
+                                                <span key={index}>{part}</span>:
+                                                <span key= {index}>{isShift}</span>
                                     )) 
                                 ):(
                                     <span>{keyvalue}</span>
@@ -60,8 +61,12 @@ export default function Keyboard(props) {
                         .map((keyvalue) => ( 
                             <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
-                                    keyvalue.split('_').map((part, index) => ( 
-                                        <span key={index}>{part}</span> 
+                                    keyvalue.split('_').map((part, index) => (
+                                        (index != 0 && !isShift) ? (
+                                        <span key={index}>{part}</span>):
+                                            (index == 0 && isShift) ?
+                                            <span key={index}>{part}</span>:
+                                            <span key= {index}>{isShift}</span>
                                     )) 
                                 ) : ( 
                                     <span>{keyvalue}</span> 
@@ -76,7 +81,11 @@ export default function Keyboard(props) {
                             <div key={keyvalue} className='key' sel = {compareKey(keyvalue,'_')}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
-                                        <span key={index}>{part}</span> 
+                                        (index != 0 && !isShift) ? (
+                                            <span key={index}>{part}</span>):
+                                                (index == 0 && isShift) ?
+                                                <span key={index}>{part}</span>:
+                                                <span key= {index}>{isShift}</span>
                                     )) 
                                 ) : ( 
                                     <span>{keyvalue}</span> 
@@ -90,7 +99,11 @@ export default function Keyboard(props) {
                             <div key={index} className='key' isshift = {(isShift && keyvalue.includes('Shift'))?isShift.toString(): "false"} sel = {compareKey(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
-                                        <span key={index}>{part}</span> 
+                                        (index != 0 && !isShift) ? (
+                                            <span key={index}>{part}</span>):
+                                                (index == 0 && isShift) ?
+                                                <span key={index}>{part}</span>:
+                                                <span key= {index}>{isShift}</span>
                                     )) 
                                 ) : (<span key = {index}>{keyvalue}</span>)
                                 }
