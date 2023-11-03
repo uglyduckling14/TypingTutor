@@ -12,6 +12,7 @@ Prompt:
 Keyboard:
     - Keyboard button moves down when pressed by user
     - Shift keys change values of other keys + lose color
+    - The key that user needs to press changes color based on the needed letter
 
 ### Pseudocode:
 Prompt:

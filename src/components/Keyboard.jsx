@@ -5,6 +5,7 @@ export default function Keyboard(props) {
     const [inputText, setInputText] = useState(''); 
     const isShift = props.isshift;
     const key = props.inputkey;
+    const pointer = props.pointer;
 
     const handleRegularKey = (inputKey) => { 
         let newContent; 
@@ -26,6 +27,14 @@ export default function Keyboard(props) {
         }
         return inputKey == key ? "selected":"unselected"
     }
+
+    const comparePointer = (inputKey,split) => {
+        if(inputKey.includes(split)){
+            const keys = inputKey.split(split)
+            return keys[0] == pointer || keys[1] == pointer ? "pointed": "unpointed"
+        }
+        return inputKey == pointer ? "pointed":"unpointed"
+    }
     
     return ( 
         <div className='keyboard'> 
@@ -39,7 +48,7 @@ export default function Keyboard(props) {
                         '^.6', '&.7', '*.8', '(.9', ').0', '_.-', '+.='] 
                         .map((keyvalue) =>  
                         ( 
-                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '.')}> 
+                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '.')} pointed = {comparePointer(keyvalue, '.')}> 
                                 {keyvalue.includes('.') ? ( 
                                     keyvalue.split('.').map((part, index) => ( 
                                         (index != 0 && !isShift) ? (
@@ -58,7 +67,7 @@ export default function Keyboard(props) {
                         {['Q_q', 'W_w', 'E_e', 'R_r', 'T_t', 'Y_y', 
                         'U_u', 'I_i', 'O_o', 'P_p', '{_[', '}_]', '|_\\'] 
                         .map((keyvalue) => ( 
-                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '_')}> 
+                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue, '_')} pointed = {comparePointer(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => (
                                         (index != 0 && !isShift) ? (
@@ -77,7 +86,7 @@ export default function Keyboard(props) {
                         {['A_a', 'S_s', 'D_d', 'F_f', 'G_g', 'H_h',  
                         'J_j', 'K_k', 'L_l', ':_;', `"_'`] 
                             .map((keyvalue) => ( 
-                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue,'_')}> 
+                            <div key={keyvalue} className='key' sel = {compareKey(keyvalue,'_')} pointed = {comparePointer(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
                                         (index != 0 && !isShift) ? (
@@ -95,7 +104,7 @@ export default function Keyboard(props) {
                     <div className="row"> 
                         {['Shift', 'Z_z', 'X_x', 'C_c', 'V_v', 'B_b', 'N_n', 'M_m', 
                         '<_,', '>_.', '?_/', 'Shift'].map((keyvalue, index) => ( 
-                            <div key={index} className='key' isshift = {(isShift && keyvalue.includes('Shift'))?isShift.toString(): "false"} sel = {compareKey(keyvalue, '_')}> 
+                            <div key={index} className='key' isshift = {(isShift && keyvalue.includes('Shift'))?isShift.toString(): "false"} sel = {compareKey(keyvalue, '_')} pointed = {comparePointer(keyvalue, '_')}> 
                                 {keyvalue.includes('_') ? ( 
                                     keyvalue.split('_').map((part, index) => ( 
                                         (index != 0 && !isShift) ? (
@@ -112,7 +121,7 @@ export default function Keyboard(props) {
                     <div className="row"> 
                         {[' '] 
                             .map((keyvalue, index) => ( 
-                            <div key={index} className='key' sel = {compareKey(keyvalue, null)}> 
+                            <div key={index} className='key' sel = {compareKey(keyvalue, null)} pointed = {comparePointer(keyvalue, null)}> 
                                 <span>{keyvalue}</span> 
                             </div> 
                         ))} 
