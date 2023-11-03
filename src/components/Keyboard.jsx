@@ -1,25 +1,11 @@
-import React, { useEffect, useState } from 'react'; 
+import React from 'react'; 
 import './Keyboard.css'; 
 
 export default function Keyboard(props) { 
-    const [inputText, setInputText] = useState(''); 
     const isShift = props.isshift;
     const key = props.inputkey;
     const pointer = props.pointer;
 
-    const handleRegularKey = (inputKey) => { 
-        let newContent; 
-        let character = ((!isShift))  
-        ? inputKey.toLowerCase() : inputKey.toUpperCase();
-        newContent = inputText + character; 
-        setInputText(newContent); 
-    };
-
-    useEffect(()=>{
-        if(key != undefined){
-            handleRegularKey(key);
-        }
-    }, [key, isShift])  
     const compareKey = (inputKey, split) => {
         if(inputKey.includes(split)){
             const keys = inputKey.split(split)
@@ -38,9 +24,6 @@ export default function Keyboard(props) {
     
     return ( 
         <div className='keyboard'> 
-            <div className="textcontainer"> 
-                <pre>{inputText}</pre> 
-            </div> 
             <div className="keyboardcontainer"> 
                 <div className="container"> 
                     <div className="row"> 

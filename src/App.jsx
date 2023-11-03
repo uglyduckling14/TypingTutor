@@ -19,7 +19,6 @@ function App() {
   const [pointer, setPointer] = useState(prompts[curPrompt].slice(0,1));
 
   useEffect(() => {
-
     document.addEventListener("keydown", (e) => {
       //on keydown
       //if it is a shift key change values on keyboard
@@ -34,10 +33,25 @@ function App() {
             e.preventDefault();
           }
           setKey(e.key) 
+          console.log(pointer,".", e.key)
       }
-      const key = e.key;
-
+    });
+    document.addEventListener("keyup", (e) => {
+      //on keyup move cursor
+      if (e.key === 'Shift') { 
+        const updateShift = !isShift
+        setIsShift(updateShift) 
+      }
+      
+      setKey("")
+      return;
+    }
+    );
+    return () => {
+      document.removeEventListener("keydown", []);
+      document.removeEventListener("keyup", []);
       if((pointer == key && curIndex < prompts[curPrompt].length-1)){
+        
         let newUnwritten = prompts[curPrompt];
         setPointer(newUnwritten.slice(curIndex+1,curIndex+2));
   
@@ -56,22 +70,8 @@ function App() {
         setUnwritten(prompts[temp].slice(1));
         setPointer(prompts[temp].slice(0,1))
     }
-    });
-    document.addEventListener("keyup", (e) => {
-      //on keyup move cursor
-      if (e.key === 'Shift') { 
-        const updateShift = !isShift
-        setIsShift(updateShift) 
-      }
-      setKey("")
-      return;
-    }
-    );
-    return () => {
-      document.removeEventListener("keydown", []);
-      document.removeEventListener("keyup", [])
     };
-  })
+  },[key, unWritten, written, pointer, isShift, curIndex, curPrompt])
   return (
     <div className='App'>
       <Prompt written = {written} pointer = {pointer} unWritten = {unWritten}/>
